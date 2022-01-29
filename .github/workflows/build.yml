@@ -33,7 +33,7 @@ jobs:
       - name: Install required libraries
         run: python install_lib.py
 
-      - name: Build Application
+      - name: Compile script
         run: python compile.py
 
       - name: Get tag name
