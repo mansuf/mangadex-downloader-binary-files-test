@@ -1,0 +1,68 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Build app
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+          all_but_latest: true
+
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+          architecture: x86
+      
+      - name: Install requirements
+        run: pip install -U pyinstaller
+
+      - name: Install required libraries
+        run: python install_lib.py
+
+      - name: Build Application
+        run: python compile.py
+
+      - name: Get tag name
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
+        run: |
+          set -x
+          echo "VERSION_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      # - name: Create Release
+      #   if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: ${{ env.VERSION_TAG }}
+      #     name: Tachiyomi ${{ env.VERSION_TAG }}
+      #     body: |
+      #       ---
+      #       ### Checksums
+      #       | Variant | SHA-256 |
+      #       | ------- | ------- |
+      #       | Universal | ${{ env.APK_UNIVERSAL_SHA }}
+      #       | arm64-v8a | ${{ env.APK_ARM64_V8A_SHA }}
+      #       | armeabi-v7a | ${{ env.APK_ARMEABI_V7A_SHA }}
+      #       | x86 | ${{ env.APK_X86_SHA }} |
+      #     files: |
+      #       tachiyomi-${{ env.VERSION_TAG }}.apk
+      #       tachiyomi-arm64-v8a-${{ env.VERSION_TAG }}.apk
+      #       tachiyomi-armeabi-v7a-${{ env.VERSION_TAG }}.apk
+      #       tachiyomi-x86-${{ env.VERSION_TAG }}.apk
+      #     draft: true
+      #     prerelease: false
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
