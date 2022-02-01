@@ -39,7 +39,7 @@ jobs:
       - name: Cleanup build
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         run: |
-          copy "dist\mangadex-dl-win32.exe" "mangadex-dl-win32-${{ env.GITHUB_REF_NAME }}"
+          copy "dist\mangadex-dl-win32.exe" "mangadex-dl-win32-$env:GITHUB_REF_NAME"
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
