@@ -31,7 +31,7 @@ jobs:
         run: pip install -U pyinstaller
 
       - name: Install required libraries
-        run: python install_lib.py
+        run: pip install -r requirements.txt
 
       - name: Compile script
         run: python compile.py
@@ -39,30 +39,20 @@ jobs:
       - name: Get tag name
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         run: |
-          set -x
           echo "VERSION_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
-      # - name: Create Release
-      #   if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     tag_name: ${{ env.VERSION_TAG }}
-      #     name: Tachiyomi ${{ env.VERSION_TAG }}
-      #     body: |
-      #       ---
-      #       ### Checksums
-      #       | Variant | SHA-256 |
-      #       | ------- | ------- |
-      #       | Universal | ${{ env.APK_UNIVERSAL_SHA }}
-      #       | arm64-v8a | ${{ env.APK_ARM64_V8A_SHA }}
-      #       | armeabi-v7a | ${{ env.APK_ARMEABI_V7A_SHA }}
-      #       | x86 | ${{ env.APK_X86_SHA }} |
-      #     files: |
-      #       tachiyomi-${{ env.VERSION_TAG }}.apk
-      #       tachiyomi-arm64-v8a-${{ env.VERSION_TAG }}.apk
-      #       tachiyomi-armeabi-v7a-${{ env.VERSION_TAG }}.apk
-      #       tachiyomi-x86-${{ env.VERSION_TAG }}.apk
-      #     draft: true
-      #     prerelease: false
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cleanup build
+        run: |
+          copy "dist\mangadex-dl-win32.exe" "mangadex-dl-win32-${{ env.VERSION_TAG }}"
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION_TAG }}
+          name: mangadex-downloader ${{ env.VERSION_TAG }}
+          files: mangadex-dl-win32-${{ env.VERSION_TAG }}
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
