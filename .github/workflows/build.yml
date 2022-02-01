@@ -39,7 +39,7 @@ jobs:
       - name: Get tag name
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         run: |
-          python get_tag_name.py >> $GITHUB_ENV
+          python get_tag_name.py >> %GITHUB_ENV%
 
       - name: Cleanup build
         if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
