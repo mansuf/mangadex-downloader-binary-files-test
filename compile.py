@@ -5,6 +5,7 @@ output = 'mangadex-dl-%s' % sys.platform
 
 run([
     'run.py',
+    '-F',
     '-n',
     output
 ])
