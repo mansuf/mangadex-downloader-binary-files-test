@@ -44,6 +44,9 @@ jobs:
           $PythonVersion = (python --version)
           echo "python_version=${PythonVersion}" | Out-File -FilePath $env:GITHUB_ENV -Append
 
+      # Build mangadex-downloader with PyInstaller
+      # only allow python 3.10
+
       - name: Compile script
         if: ${{ contains(env.python_version, '3.10') }}
         run: python compile.py
