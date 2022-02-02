@@ -37,7 +37,7 @@ jobs:
 
       - name: Test import module
         run: |
-          python -c "import mangadex_downloader"
+          python -c "import mangadex_downloader; from mangadex_downloader.__main__ import main"
 
       - name: Get python version
         run: |
