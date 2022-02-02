@@ -1,5 +1,6 @@
 .. currentmodule:: mangadex_downloader
 
+
 API Reference
 ==============
 
