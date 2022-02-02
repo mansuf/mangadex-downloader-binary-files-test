@@ -37,18 +37,20 @@ jobs:
         run: python compile.py
 
       - name: Cleanup build
-        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
+        # if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         run: |
+          REM copy "dist\mangadex-dl-win32.exe" "mangadex-dl-win32-$env:GITHUB_REF_NAME.exe"
           copy "dist\mangadex-dl-win32.exe" "mangadex-dl-win32-$env:GITHUB_REF_NAME.exe"
 
+
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
+        # if: startsWith(github.ref, 'refs/tags/') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.GITHUB_REF_NAME }}
-          name: mangadex-downloader ${{ env.GITHUB_REF_NAME }}
+          tag_name: ${{ github.ref_name }}
+          name: mangadex-downloader ${{ github.ref_name }}
           files: |
-            mangadex-dl-win32-${{ env.GITHUB_REF_NAME }}.exe
+            mangadex-dl-win32-${{ github.ref_name }}.exe
           draft: true
           prerelease: false
         env:
