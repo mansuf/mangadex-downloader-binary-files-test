@@ -27,14 +27,11 @@ jobs:
           python-version: '3.10'
           architecture: x86
       
-      - name: Setup wheel package
-        run: pip install -U wheel
-
-      - name: Setup pyinstaller
-        run: pip install -U pyinstaller
 
       - name: Install required libraries
-        run: pip install -r requirements.txt
+        run: |
+          pip install -U whell pyinstaller
+          pip install -r requirements.txt
 
       - name: Compile script
         run: python compile.py
@@ -51,7 +48,7 @@ jobs:
           tag_name: ${{ env.GIRHUB_REF_NAME }}
           name: mangadex-downloader ${{ github.ref_name }}
           files: |
-            mangadex-dl-win32-${{ github.ref_name }}.exe
+            mangadex-dl_win32_${{ github.ref_name }}.exe
           draft: true
           prerelease: false
         env:
