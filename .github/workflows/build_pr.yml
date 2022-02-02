@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Check build app & docs
+    name: Build app & docs
     runs-on: windows-latest
     strategy:
       matrix:
