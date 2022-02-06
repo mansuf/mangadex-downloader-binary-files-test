@@ -9,7 +9,9 @@ from pathlib import Path
 
 from .network import Net
 from .utils import download
-from . import __version__ as current_version
+from . import __version__
+
+current_version = parse_version(__version__)
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +44,7 @@ def _get_asset(version):
 def check_version():
     # Get latest version
     versions = _get_api_tags()
-    latest_version = max(versions, key=parse_version)
+    latest_version = parse_version(max(versions, key=parse_version))
 
     if latest_version > current_version:
         log.info("There is new version mangadex-downloader ! (%s), you should update it with \"%s\" option" % (

@@ -31,6 +31,11 @@ def validate_url(url):
     return _id
 
 def _main(argv):
+    if '--update' in argv:
+        setup_logging('mangadex_downloader')
+        update_app()
+        sys.exit(0)
+
     parser = argparse.ArgumentParser(description=__description__)
     parser.add_argument('URL', type=validate_url, help='MangaDex URL')
     parser.add_argument('--folder', metavar='FOLDER', help='Store manga in given folder')
@@ -63,18 +68,9 @@ def _main(argv):
         help='Login to MangaDex with password (you will be prompted to input username if --login-username are not present)',
         metavar='PASSWORD'
     )
-    parser.add_argument(
-        '--update',
-        help='Update mangadex-downloader to the latest version',
-        action='store_true'
-    )
     args = parser.parse_args(argv)
 
     log = setup_logging('mangadex_downloader', args.verbose)
-
-    if args.update:
-        update_app()
-        exit(0)
 
     if args.login:
         if not args.login_username:
