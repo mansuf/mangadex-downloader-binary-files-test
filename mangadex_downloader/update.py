@@ -31,7 +31,8 @@ def _get_api_tags():
         versions.append(version_info['ref'].replace('refs/tags/', ''))
     return versions
 
-def _get_asset(version):
+def _get_asset(_version):
+    version = str(_version)
     if not version.startswith('v'):
         version = 'v' + version
 
