@@ -75,7 +75,7 @@ def update_app():
 
         if executable:
             try:
-                temp_folder = tempfile.mkdtemp(suffix='md_downloader_update')
+                temp_folder = Path(tempfile.mkdtemp(suffix='md_downloader_update'))
             except Exception as e:
                 log.error("Failed to create temporary folder, reason: %s" % e)
                 sys.exit(1)
