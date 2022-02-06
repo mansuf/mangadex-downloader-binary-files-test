@@ -8,6 +8,7 @@ from .main import download, login, logout
 from .utils import validate_url as _validate
 from .utils import _keyboard_interrupt_handler
 from .errors import InvalidURL
+from .update import check_version, update_app
 from . import __description__
 
 def setup_logging(name_module, verbose=False):
@@ -62,9 +63,18 @@ def _main(argv):
         help='Login to MangaDex with password (you will be prompted to input username if --login-username are not present)',
         metavar='PASSWORD'
     )
+    parser.add_argument(
+        '--update',
+        help='Update mangadex-downloader to the latest version',
+        action='store_true'
+    )
     args = parser.parse_args(argv)
 
     log = setup_logging('mangadex_downloader', args.verbose)
+
+    if args.update:
+        update_app()
+        exit(0)
 
     if args.login:
         if not args.login_username:
