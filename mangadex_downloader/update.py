@@ -80,7 +80,7 @@ def update_app():
                 log.error("Failed to create temporary folder, reason: %s" % e)
                 sys.exit(1)
 
-            update_file_path = str(temp_folder / '%s.zip' % latest_version)
+            update_file_path = str(temp_folder / ('%s.zip' % latest_version))
 
             # Download update
             try:
