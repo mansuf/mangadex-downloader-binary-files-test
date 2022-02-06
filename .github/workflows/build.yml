@@ -56,7 +56,7 @@ jobs:
         run: |
           copy "LICENSE" "dist\mangadex-dl"
           copy "README.md" "dist\mangadex-dl"
-          echo "${{ github.ref_name }}" | Out-File -FilePath "dist\version.txt" -NoNewLine
+          echo "${{ github.ref_name }}" | Out-File -FilePath "dist\mangadex-dl\version.txt" -NoNewLine
           Compress-Archive -Path "dist\mangadex-dl" -DestinationPath "mangadex-dl_${{ github.ref_name }}.zip"
 
       - name: Create Release
@@ -71,4 +71,3 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
