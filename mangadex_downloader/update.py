@@ -96,7 +96,7 @@ def update_app():
 
             extracted_update_path = str(temp_folder / 'mangadex-dl')
 
-            cmd_args = "@echo off && echo \"Updating mangadex-downloader from v%s to v%s\"" % (
+            cmd_args = "@echo off && echo \"Updating mangadex-downloader from v%s to v%s\" && " % (
                 current_version,
                 latest_version
             )
