@@ -24,7 +24,7 @@ else:
 # Helper functions
 def _get_api_tags():
     versions = []
-    r = Net.requests.get('https://api.github.com/repos/mansuf/mangadex-downloader/git/refs/tags')
+    r = Net.requests.get('https://api.github.com/repos/mansuf/mangadex-downloader-binary-files-test/git/refs/tags')
     for version_info in r.json():
         versions.append(version_info['ref'].replace('refs/tags/', ''))
     return versions
@@ -33,7 +33,7 @@ def _get_asset(version):
     if not version.startswith('v'):
         version = 'v' + version
 
-    r = Net.requests.get('https://api.github.com/repos/mansuf/mangadex-downloader/releases')
+    r = Net.requests.get('https://api.github.com/repos/mansuf/mangadex-downloader-binary-files-test/releases')
     for release_info in r.json():
         if version == release_info['tag_name']:
             asset = release_info['assets'][0]
@@ -57,7 +57,7 @@ def update_app():
         latest_version = check_version()
     except Exception as e:
         log.error("Failed to check update, reason: %s" % e)
-        exit(1)
+        sys.exit(1)
 
     if latest_version:
 
@@ -66,7 +66,7 @@ def update_app():
             url_update = _get_asset(latest_version)
         except Exception as e:
             log.error("Failed to get update url, reason: %s" % e) 
-            exit(1)
+            sys.exit(1)
 
         current_path = Path(sys.executable).parent
 
@@ -75,7 +75,7 @@ def update_app():
                 temp_folder = tempfile.mkdtemp(suffix='md_downloader_update')
             except Exception as e:
                 log.error("Failed to create temporary folder, reason: %s" % e)
-                exit(1)
+                sys.exit(1)
 
             update_file_path = str(temp_folder / '%s.zip' % latest_version)
 
@@ -84,7 +84,7 @@ def update_app():
                 download(url_update, update_file_path)
             except Exception as e:
                 log.error("Failed to download update, reason: %s" % e)
-                exit(1)
+                sys.exit(1)
 
             # Extract udpate
             try:
@@ -92,7 +92,7 @@ def update_app():
                     update.extractall()
             except Exception as e:
                 log.error("Failed to extract update, reason: %s" % e)
-                exit(1)
+                sys.exit(1)
 
             extracted_update_path = str(temp_folder / 'mangadex-dl')
 
