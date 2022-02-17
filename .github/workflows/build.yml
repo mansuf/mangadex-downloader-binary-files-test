@@ -61,21 +61,21 @@ jobs:
       - name: Cleanup build
         if: startsWith(github.ref, 'refs/tags/') && contains(env.python_version, '3.10') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
         run: |
-          copy "LICENSE" "dist_x86\mangadex-dl"
-          copy "README.md" "dist_x86\mangadex-dl"
-          echo "${{ github.ref_name }}" | Out-File -FilePath "dist\mangadex-dl_x86\version.txt" -NoNewLine
-          echo "mangadex-dl.exe --update" | Out-File -FilePath "dist\mangadex-dl_x86\update.bat"
-          echo "start cmd" | Out-File -FilePath "dist\mangadex-dl_x86\start cmd.bat"
-          Rename-Item -Path "dist\mangadex_dl_x86.exe" -NewName "mangadex-dl.exe"
-          Compress-Archive -Path "dist\mangadex-dl_x86" -DestinationPath "mangadex-dl_x86_${{ github.ref_name }}.zip"
+          copy "LICENSE" "dist_x86\mangadex-dl_x86"
+          copy "README.md" "dist_x86\mangadex-dl_x86"
+          echo "${{ github.ref_name }}" | Out-File -FilePath "dist_x86\mangadex-dl_x86\version.txt" -NoNewLine
+          echo "mangadex-dl.exe --update" | Out-File -FilePath "dist_x86\mangadex-dl_x86\update.bat"
+          echo "start cmd" | Out-File -FilePath "dist_x86\mangadex-dl_x86\start cmd.bat"
+          Rename-Item -Path "dist_x86\mangadex_dl_x86.exe" -NewName "mangadex-dl.exe"
+          Compress-Archive -Path "dist_x86\mangadex-dl_x86" -DestinationPath "mangadex-dl_x86_${{ github.ref_name }}.zip"
 
-          copy "LICENSE" "dist_x64\mangadex-dl"
-          copy "README.md" "dist_x64\mangadex-dl"
-          echo "${{ github.ref_name }}" | Out-File -FilePath "dist\mangadex-dl_x64\version.txt" -NoNewLine
-          echo "mangadex-dl.exe --update" | Out-File -FilePath "dist\mangadex-dl_x64\update.bat"
-          echo "start cmd" | Out-File -FilePath "dist\mangadex-dl_x64\start cmd.bat"
-          Rename-Item -Path "dist\mangadex_dl_x64.exe" -NewName "mangadex-dl.exe"
-          Compress-Archive -Path "dist\mangadex-dl_x64" -DestinationPath "mangadex-dl_x64_${{ github.ref_name }}.zip"
+          copy "LICENSE" "dist_x64\mangadex-dl_x64"
+          copy "README.md" "dist_x64\mangadex-dl_x64"
+          echo "${{ github.ref_name }}" | Out-File -FilePath "dist_x64\mangadex-dl_x64\version.txt" -NoNewLine
+          echo "mangadex-dl.exe --update" | Out-File -FilePath "dist_x64\mangadex-dl_x64\update.bat"
+          echo "start cmd" | Out-File -FilePath "dist_x64\mangadex-dl_x64\start cmd.bat"
+          Rename-Item -Path "dist_x64\mangadex_dl_x64.exe" -NewName "mangadex-dl.exe"
+          Compress-Archive -Path "dist_x64\mangadex-dl_x64" -DestinationPath "mangadex-dl_x64_${{ github.ref_name }}.zip"
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && contains(env.python_version, '3.10') && github.repository == 'mansuf/mangadex-downloader-binary-files-test'
